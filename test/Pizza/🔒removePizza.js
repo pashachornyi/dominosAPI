@@ -2,7 +2,6 @@ const assert = require('chai').assert;
 const chai = require('chai')
     , chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const url = "https://my-dominos-backend.herokuapp.com/rest/v1"
 var token;
 const helper = require('../helpers/📌codes')
 require('dotenv').config()
@@ -10,22 +9,22 @@ require('dotenv').config()
 
 describe('Delete pizza', () => {
     beforeEach(async () => {
-        token = await chai.request(url)
+        token = await chai.request(process.env.URL)
             .post('/user/login')
             .send({
                 username: process.env.USERNAME,
                 password: process.env.PASSWORD
             })
     })
-    xit('Show pizza list and delete pizzas with same images', () => {
-        chai.request(url)
+    it('Show pizza list and delete pizzas with same images', () => {
+        chai.request(process.env.URL)
             .get('/pizza')
             .then(({ body }) => {
                 let imageUrl = "https://rusvesna.su/sites/default/files/styles/orign_wm/public/negr_.jpg"
                 let pizzas = body.result
                 pizzas.forEach(pizza => {
                     if (pizza.image == imageUrl) {
-                        chai.request(url)
+                        chai.request(process.env.URL)
                             .delete('/pizza/' + pizza.id)
                             .set("Authorization", "Bearer " + token.body.result.token)
                             .send({})
@@ -33,14 +32,11 @@ describe('Delete pizza', () => {
                                 helper.assert204({}, result.body)
                             })
                     }
-
-                }
-
-                )
+                })
             })
     });
-    xit('Delete pizza (Unauthorized)', () => {
-        chai.request(url)
+    it('Delete pizza (unauthorized)', () => {
+        chai.request(process.env.URL)
             .delete('/pizza/5ea49664d7737d002471f6b1')
             .send({})
             .then((result) => {
@@ -48,13 +44,12 @@ describe('Delete pizza', () => {
             })
     })
     it('Delete pizza with same image', () => {
-        chai.request(url)
+        chai.request(process.env.URL)
             .delete('/pizza/5ea49664d7737d00')
             .set("Authorization", "Bearer " + token.body.result.token)
             .send({})
             .then((result) => {
-                console.log(result.body)
-                // helper.assert404(result.body)
+                helper.assert404(result.body)
             })
     })
 })

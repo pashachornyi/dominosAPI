@@ -10,7 +10,7 @@ let partName = `${Math.floor(Math.random() * 10000)}_user`;
 
 
 describe('Creating and removing user', () => {
-    xit('Create new user', async () => {
+    it('Create new user', async () => {
         let registerResponse = await chai.request(url)
             .post('/user/register')
             .send({
@@ -29,7 +29,7 @@ describe('Creating and removing user', () => {
             })
         token = await loginResponse.body.result.token
     })
-    xit('Deleting this user', () => {
+    it('Deleting this user', () => {
         chai.request(url)
             .delete('/user/' + id)
             .set("Authorization", "Bearer " + token)
@@ -71,4 +71,40 @@ describe('Deleting users with same emails', () => {
                 });
             })
     })
-});
+})
+
+
+describe('Deleting user (400 codes)', () => {
+    beforeEach(async () => {
+        token = await chai.request(url)
+            .post('/user/login')
+            .send({
+                username: process.env.USERNAME,
+                password: process.env.PASSWORD
+            })
+    })
+    it('Delete user (incorrect user id)', () => {
+        chai.request(url)
+            .get('/user')
+            .set("Authorization", "Bearer " + token.body.result.token)
+            .send({})
+            .then(({ body }) => {
+                let users = body.result[2].id
+                chai.request(url)
+                    .delete(`/user/${users}111`)
+                    .set("Authorization", "Bearer " + token.body.result.token)
+                    .send({})
+                    .then((result) => {
+                        helper.assert404(result.body)
+                    })
+            })
+    })
+    it('Delete user(unauthorized)', () => {
+        chai.request(url)
+            .delete('/user/5ea5e7e96ed2230024d7d116')
+            .send({})
+            .then((result) => {
+                helper.assert401(result.body)
+            })
+    })
+})

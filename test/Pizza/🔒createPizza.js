@@ -2,25 +2,25 @@ const assert = require('chai').assert;
 const chai = require('chai')
     , chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const url = "https://my-dominos-backend.herokuapp.com/rest/v1"
 var token;
 const helper = require('../helpers/📌codes')
-require('dotenv').config()
 const faker = require('faker');
 const pizzaName = faker.name.findName();
+require('dotenv').config()
+const provider = require('../Pizza/provider/remove_pizza')
 
 
 describe('Create pizza', () => {
     beforeEach(async () => {
-        token = await chai.request(url)
+        token = await chai.request(process.env.URL)
             .post('/user/login')
             .send({
                 username: process.env.USERNAME,
                 password: process.env.PASSWORD
             })
     })
-    it('Create random pizza', () => {
-        chai.request(url)
+    xit('Create random pizza', () => {
+        chai.request(process.env.URL)
             .post('/pizza/create')
             .set("Authorization", "Bearer " + token.body.result.token)
             .send({
@@ -48,13 +48,16 @@ describe('Create pizza', () => {
                 helper.assert201({}, result.body)
             })
     })
-    it('Create random pizza with empty body', () => {
-        chai.request(url)
-            .post('/pizza/create')
-            .set("Authorization", "Bearer " + token.body.result.token)
-            .send({})
-            .then((result) => {
-                helper.assert422([], result.body)
-            })
+    provider.forEach((element) => {
+        console.log(element)
+        it(element.scenario, () => {
+            chai.request(process.env.URL)
+                .post('/pizza/create')
+                .set("Authorization", "Bearer " + token.body.result.token)
+                .send({})
+                .end((err, response) => {
+                    helper.assert422(element.result, response.body)
+                })
+        })
     })
 })

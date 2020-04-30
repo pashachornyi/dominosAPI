@@ -4,7 +4,7 @@ const chai = require('chai')
 chai.use(chaiHttp);
 const url = "https://my-dominos-backend.herokuapp.com/rest/v1"
 var token;
-const helper = require('./helpers/📌codes')
+const helper = require('./test/helpers/📌codes')
 require('dotenv').config()
 
 
@@ -18,6 +18,8 @@ describe('', () => {
             })
     })
     it('', () => {
+        chai.request(url)
+
 
     })
 

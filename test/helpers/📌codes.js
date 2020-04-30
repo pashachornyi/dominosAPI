@@ -24,7 +24,7 @@ class Helper {
         assert.equal(responseBody.code, 401)
         assert.equal(responseBody.status, 'error')
         assert.equal(responseBody.message, 'Unauthorized')
-        assert.equal(responseBody.result, 'Auth was failed!')
+        assert.equal(responseBody.result, 'Your request was made with invalid credentials.')
     }
    
         assert200(expectedValue, actualValue) {

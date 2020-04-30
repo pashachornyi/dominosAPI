@@ -2,13 +2,23 @@ const assert = require('chai').assert;
 const chai = require('chai')
     , chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const url = "https://my-dominos-backend.herokuapp.com/rest/v1"
+const helper = require('../helpers/📌codes')
+require('dotenv').config()
 
 
 describe('Create new delivery', () => {
+    beforeEach(async () => {
+        token = await chai.request(process.env.URL)
+            .post('/user/login')
+            .send({
+                username: process.env.USERNAME,
+                password: process.env.PASSWORD
+            })
+    })
     it('Create new delivery (valid data)', () => {
-        chai.request(url)
+        chai.request(process.env.URL)
             .post('/delivery/create')
+            .set("Authorization", "Bearer " + token.body.result.token)
             .send({
                 firstName: "user1",
                 phone: 380986309585,
@@ -38,8 +48,16 @@ describe('Create new delivery', () => {
                 },
                 comment: "Hostel"
             })
-            .then(({ body }) => {
-                console.log(body.result)
+            .then((result) => {
+                helper.assert201({}, result.body)
+            })
+    });
+    it('Create new delivery (unauthorized)', () => {
+        chai.request(process.env.URL)
+            .post('/delivery/create')
+            .send({})
+            .then((result) => {
+                helper.assert401(result.body)
             })
     });
 })

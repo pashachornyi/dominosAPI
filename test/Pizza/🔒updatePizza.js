@@ -10,7 +10,7 @@ require('dotenv').config()
 
 describe('Update pizza', () => {
     beforeEach(async () => {
-        token = await chai.request(url)
+        token = await chai.request(process.env.URL)
             .post('/user/login')
             .send({
                 username: process.env.USERNAME,
@@ -18,7 +18,7 @@ describe('Update pizza', () => {
             })
     })
     it('Show pizza list and update pizza photos with same images', () => {
-        chai.request(url)
+        chai.request(process.env.URL)
             .get('/pizza')
             .then(({ body }) => {
                 let imageUrl = "https://aesiitf.kpi.ua/wp-content/uploads/2014/11/AlexeikE.jpg"
@@ -61,7 +61,7 @@ describe('Update pizza', () => {
             })
     });
     it('Update pizza (incorrect ID)', () => {
-        chai.request(url)
+        chai.request(process.env.URL)
             .patch('/pizza/5ea55f50b2e57f0024ddfab4zzzzzz')
             .set("Authorization", "Bearer " + token.body.result.token)
             .send({})
@@ -70,7 +70,7 @@ describe('Update pizza', () => {
             })
     })
     it('Update pizza (empty body)', () => {
-        chai.request(url)
+        chai.request(process.env.URL)
             .patch('/pizza/5ea55f50b2e57f0024ddfab4')
             .set("Authorization", "Bearer " + token.body.result.token)
             .send({})
@@ -79,7 +79,7 @@ describe('Update pizza', () => {
             })
     })
     it('Update pizza (Unauthorized)', () => {
-        chai.request(url)
+        chai.request(process.env.URL)
             .patch('/pizza/5ea55f50b2e57f0024ddfab4')
             .send({})
             .then((result) => {
