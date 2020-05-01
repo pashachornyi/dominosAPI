@@ -7,7 +7,7 @@ const helper = require('../helpers/📌codes')
 const faker = require('faker');
 const pizzaName = faker.name.findName();
 require('dotenv').config()
-const provider = require('../Pizza/provider/remove_pizza')
+const provider = require('./provider/remove_pizza')
 
 
 describe('Create pizza', () => {

@@ -1,6 +1,7 @@
 'use strict';
 module.exports = {
   diff: true,
+  asyncOnly: true,
   extension: ['js'],
   package: './package.json',
   reporter: 'spec',
