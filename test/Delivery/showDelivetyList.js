@@ -5,6 +5,8 @@ chai.use(chaiHttp);
 var token;
 const helper = require('../helpers/📌codes')
 require('dotenv').config()
+const provider200 = require('./provider/deliveryList200')
+const provider401 = require('./provider/deliveryList401')
 
 
 describe('Show delivery list', () => {
@@ -16,27 +18,39 @@ describe('Show delivery list', () => {
                 password: process.env.PASSWORD
             })
     })
-    it('Show list', () => {
-        chai.request(process.env.URL)
-            .get('/delivery')
-            .set("Authorization", "Bearer " + token.body.result.token)
-            .send({
-                perPage: 10,
-                page: 1
-            })
-            .then((result) => {
-                helper.assert200({}, result.body)
-            })
+    provider200.forEach((element) => {
+        it(element.scenario, (done) => {
+            chai.request(process.env.URL)
+                .get('/delivery')
+                .query(element.data)
+                .set("Authorization", "Bearer " + token.body.result.token)
+                .end((err, result) => {
+                    // console.log(result.body)
+                    // console.log(result.body.result[0].id)
+                    // console.log(element.result.id)
+                   
+                    assert.hasAnyKeys({foo: 1, bar: 2, baz: 3}, ['foo', 'iDontExist', 'baz'])
+                    
+                    // assert.containsAllDeepKeys(result.body.result[0], element.result)
+
+                    // result.body.result.forEach((element) => {
+                    //     assert.include(result.body.result, element.result)
+                    // });
+                    // assert.include(element.result, element.result.id)
+                    // helper.assert200(element.result, result.body)
+                    done()
+                })
+        })
     })
-    it('Show list (unauthorized)', () => {
-        chai.request(process.env.URL)
-            .get('/delivery')
-            .send({
-                perPage: 10,
-                page: 1
-            })
-            .then((result) => {
-                helper.assert401(result.body)
-            })
+    provider401.forEach((element) => {
+        it(element.scenario, (done) => {
+            chai.request(process.env.URL)
+                .get('/delivery')
+                .send(element.data)
+                .end((err, result) => {
+                    helper.assert401(result.body)
+                    done()
+                })
+        })
     })
 });

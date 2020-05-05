@@ -1,4 +1,4 @@
-const assert = require('chai').assert;
+const { assert } = require('chai');
 
 class Helper {
     assert422(checkResult, response) {
@@ -20,28 +20,37 @@ class Helper {
         assert.equal(responseBody.message, 'Not Found')
     }
 
-    assert401(responseBody) {
-        assert.equal(responseBody.code, 401)
-        assert.equal(responseBody.status, 'error')
-        assert.equal(responseBody.message, 'Unauthorized')
-        assert.equal(responseBody.result, 'Your request was made with invalid credentials.')
+    assert401(a) {
+        assert.equal(a.code, 401)
+        assert.equal(a.status, 'error')
+        assert.equal(a.message, 'Unauthorized')
+        assert.equal(a.result, 'Your request was made with invalid credentials.')
     }
-   
-        assert200(expectedValue, actualValue) {
-        assert.equal(actualValue.code, 200)
-        assert.equal(actualValue.status, 'success')
-        assert.equal(actualValue.message, 'OK')
+
+    assert200(expectedValue, actualValue) {
+        assert.equal(expectedValue.code, 200)
+        assert.equal(expectedValue.status, 'success')
+        assert.equal(expectedValue.message, 'OK')
         if (Object.keys(expectedValue).length !== 0) {
             assert.ownInclude(expectedValue, actualValue.result)
         }
     }
+    
+    // assert200(expectedValue, actualValue) {
+    //     assert.equal(expectedValue.code, 200)
+    //     assert.equal(expectedValue.status, 'success')
+    //     assert.equal(expectedValue.message, 'OK')
+    //     if (Object.keys(expectedValue).length !== 0) {
+    //         assert.include(expectedValue, actualValue.result)
+    //     }
+    // }
 
     assert201(expectedValue, actualValue) {
         assert.equal(actualValue.code, 201)
         assert.equal(actualValue.status, 'success')
         assert.equal(actualValue.message, 'Created')
         if (Object.keys(expectedValue).length !== 0) {
-            assert.ownInclude(expectedValue, actualValue.result)
+            assert.deepEqual(expectedValue, actualValue.result)
         }
     }
 
@@ -50,6 +59,6 @@ class Helper {
             assert.ownInclude(expectedValue, actualValue.result)
         }
     }
-    
+
 }
 module.exports = new Helper();
