@@ -5,6 +5,8 @@ chai.use(chaiHttp);
 var token;
 const helper = require('../helpers/📌codes')
 require('dotenv').config()
+const provider401 = require('./provider/removePizza401')
+const provider404 = require('./provider/removePizza404')
 
 
 describe('Delete pizza', () => {
@@ -35,21 +37,27 @@ describe('Delete pizza', () => {
                 })
             })
     });
-    it('Delete pizza (unauthorized)', () => {
-        chai.request(process.env.URL)
-            .delete('/pizza/5ea49664d7737d002471f6b1')
-            .send({})
-            .then((result) => {
-                helper.assert401(result.body)
-            })
+    provider401.forEach((element) => {
+        it(element.scenario, (done) => {
+            chai.request(process.env.URL)
+                .delete('/pizza/5e57ccaf79e59b00246ccb1c')
+                .send(element.data)
+                .end((err, result) => {
+                    helper.assert401(result.body)
+                    done()
+                })
+        })
     })
-    it('Delete pizza with same image', () => {
-        chai.request(process.env.URL)
-            .delete('/pizza/5ea49664d7737d00')
-            .set("Authorization", "Bearer " + token.body.result.token)
-            .send({})
-            .then((result) => {
-                helper.assert404(result.body)
-            })
+    provider404.forEach((element) => {
+        it(element.scenario, (done) => {
+            chai.request(process.env.URL)
+                .delete('/pizza/5e57ccaf79e59b00246ccb1c___')
+                .set("Authorization", "Bearer " + token.body.result.token)
+                .send(element.data)
+                .end((err, result) => {
+                    helper.assert404(result.body)
+                    done()
+                })
+        })
     })
 })

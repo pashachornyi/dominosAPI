@@ -6,6 +6,7 @@ const url = "https://my-dominos-backend.herokuapp.com/rest/v1"
 var token;
 const helper = require('../helpers/📌codes')
 require('dotenv').config()
+const provider201 = require('./provider/createPizza201')
 
 
 describe('Update pizza', () => {
@@ -16,6 +17,18 @@ describe('Update pizza', () => {
                 username: process.env.USERNAME,
                 password: process.env.PASSWORD
             })
+    })
+    provider201.forEach((element) => {
+        it(element.scenario, (done) => {
+            chai.request(process.env.URL)
+                .post('/pizza/create')
+                .set("Authorization", "Bearer " + token.body.result.token)
+                .send(element.data)
+                .end((err, result) => {
+                    assert.deepInclude(result.body.result, element.result)
+                    done()
+                })
+        })
     })
     it('Show pizza list and update pizza photos with same images', () => {
         chai.request(process.env.URL)
@@ -51,6 +64,7 @@ describe('Update pizza', () => {
                                 image: "https://rusvesna.su/sites/default/files/styles/orign_wm/public/negr_.jpg"
                             })
                             .then((result) => {
+                                console.log(result.body)
                                 helper.assert200({}, result.body)
                             })
                     }
@@ -60,7 +74,7 @@ describe('Update pizza', () => {
                 )
             })
     });
-    it('Update pizza (incorrect ID)', () => {
+    xit('Update pizza (incorrect ID)', () => {
         chai.request(process.env.URL)
             .patch('/pizza/5ea55f50b2e57f0024ddfab4zzzzzz')
             .set("Authorization", "Bearer " + token.body.result.token)
@@ -69,7 +83,7 @@ describe('Update pizza', () => {
                 helper.assert404(result.body)
             })
     })
-    it('Update pizza (empty body)', () => {
+    xit('Update pizza (empty body)', () => {
         chai.request(process.env.URL)
             .patch('/pizza/5ea55f50b2e57f0024ddfab4')
             .set("Authorization", "Bearer " + token.body.result.token)
@@ -78,7 +92,7 @@ describe('Update pizza', () => {
                 helper.assert422([], result.body)
             })
     })
-    it('Update pizza (Unauthorized)', () => {
+    xit('Update pizza (Unauthorized)', () => {
         chai.request(process.env.URL)
             .patch('/pizza/5ea55f50b2e57f0024ddfab4')
             .send({})

@@ -6,16 +6,18 @@ module.exports = [
             perPage: 10,
             page: 1
         },
-        result: {
-            // 'id',
-            // firstName,
-            // phone,
-            // email,
-            // pizzasIds,
-            // amount,
-            // date,
-            // address,
-            // comment 
-        }
+        result: [
+            'id',
+            'firstName',
+            'phone',
+            'email',
+            'userId',
+            'shop',
+            'pizzasIds',
+            'amount',
+            'date',
+            'address',
+            'comment' 
+        ]
     }
 ]

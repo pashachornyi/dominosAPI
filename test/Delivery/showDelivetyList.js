@@ -25,19 +25,7 @@ describe('Show delivery list', () => {
                 .query(element.data)
                 .set("Authorization", "Bearer " + token.body.result.token)
                 .end((err, result) => {
-                    // console.log(result.body)
-                    // console.log(result.body.result[0].id)
-                    // console.log(element.result.id)
-                   
-                    assert.hasAnyKeys({foo: 1, bar: 2, baz: 3}, ['foo', 'iDontExist', 'baz'])
-                    
-                    // assert.containsAllDeepKeys(result.body.result[0], element.result)
-
-                    // result.body.result.forEach((element) => {
-                    //     assert.include(result.body.result, element.result)
-                    // });
-                    // assert.include(element.result, element.result.id)
-                    // helper.assert200(element.result, result.body)
+                    helper.assertCheckObjectAllKeys(result.body.result[0], element.result, 'Delivery')
                     done()
                 })
         })

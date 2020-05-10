@@ -6,8 +6,7 @@ module.exports = [
             password: ""
         },
         result: [
-            { field: 'password', message: 'Password cannot be blank.' },
-            { field: 'username', message: 'Username or Password is invalid.' }
+            { field: 'password', message: 'Password can not be blank.' },
         ]
     },
     {
@@ -17,8 +16,8 @@ module.exports = [
             password: ""
         },
         result: [
-            { field: 'username', message: 'Username cannot be blank.' },
-            { field: 'password', message: 'Password cannot be blank.' }
+            { field: 'username', message: 'Username can not be blank.' },
+            { field: 'password', message: 'Password can not be blank.' }
         ]
     },
     {
