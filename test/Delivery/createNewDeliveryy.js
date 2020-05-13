@@ -6,13 +6,13 @@ const helper = require('../helpers/📌codes')
 require('dotenv').config()
 const provider201 = require('./provider/newDelivery201')
 const provider401 = require('./provider/newDelivery401')
-const url = '/delivery/create'
+const url = '/delivery'
 
 
 describe('Create new delivery', () => {
     beforeEach(async () => {
         token = await chai.request(process.env.URL)
-            .post('/user/login')
+            .post('/auth/login')
             .send({
                 username: process.env.USERNAME,
                 password: process.env.PASSWORD

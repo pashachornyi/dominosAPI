@@ -22,15 +22,20 @@ module.exports = [
                 medium: 129.99,
                 high: 200.99
             },
-            image: image = "https://rusvesna.su/sites/default/files/styles/orign_wm/public/negr_.jpg"
+            // image: image = "https://rusvesna.su/sites/default/files/styles/orign_wm/public/negr_.jpg"
         },
         result: {
+            ingredients: ingredients,
+            // image: image,
+            // createdAt,
+            // updatedAt,
+            // deletedAt,
+            // deletedBy,
+            // _id,
             name: pizzaName,
             category: category,
-            ingredients: ingredients,
             weight: weight,
-            price: price,
-            image: image
+            price: price
         }
     }
 ]

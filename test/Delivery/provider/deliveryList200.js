@@ -1,9 +1,9 @@
-require('dotenv').config()
+// require('dotenv').config()
 module.exports = [
     {
         scenario: 'Show list',
         data: {
-            perPage: 10,
+            limit: 10,
             page: 1
         },
         result: [
@@ -11,13 +11,17 @@ module.exports = [
             'firstName',
             'phone',
             'email',
-            'userId',
             'shop',
             'pizzasIds',
-            'amount',
-            'date',
             'address',
-            'comment' 
+            'comment', 
+            'date',
+            'payment',
+            'amount',
+            'createdAt',
+            'updatedAt',
+            'deletedAt',
+            'deletedBy'
         ]
     }
 ]

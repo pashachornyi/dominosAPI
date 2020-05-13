@@ -29,7 +29,6 @@ const url = '/auth/register'
 // }
 
 describe('Register validation', () => {
-
     provider201.forEach((element) => {
         it(element.scenario, (done) => {
             chai.request(process.env.URL)
