@@ -30,32 +30,23 @@ module.exports = [
             },
             comment: comment = "Hostel"
         },
-        result: {
-            firstName: firstName,
-            phone: phone,
-            email: email,
-            userId: userId,
-            shop: shop,
-            address: {
-                street,
-                house,
-                flat,
-                entrance,
-                code,
-                floor
-            },
-            comment: comment,
-            date: {
-                date,
-                time
-            },
-            payment:{
-                coupon,
-                remainder,
-                type
-            },
-            amount: amount,
-            pizzaIds: pizzaIds
-        }
+        result: [
+            "_id",
+            "address",
+            "amount",
+            "comment",
+            "createdAt",
+            "date",
+            "deletedAt",
+            "deletedBy",
+            "email",
+            "firstName",
+            "payment",
+            "phone",
+            "pizzaIds",
+            "shop",
+            "updatedAt",
+            "userId"
+        ]
     }
 ]

@@ -2,7 +2,7 @@ const assert = require('chai').assert;
 const chai = require('chai')
     , chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const url = "https://my-dominos-backend.herokuapp.com/rest/v1"
+const url = "https://dominos-backend.herokuapp.com/api/v1"
 var token;
 const helper = require('../helpers/📌codes')
 require('dotenv').config()
@@ -11,7 +11,7 @@ require('dotenv').config()
 describe('Get current user', () => {
     beforeEach(async () => {
         token = await chai.request(url)
-            .post('/user/login')
+            .post('/auth/login')
             .send({
                 username: process.env.USERNAME,
                 password: process.env.PASSWORD
@@ -23,11 +23,10 @@ describe('Get current user', () => {
             .set("Authorization", "Bearer " + token.body.result.token)
             .send({})
             .then((result) => {
-                console.log(result.body)
                 helper.assert204({}, result.body)
             })
     })
-    xit('Getting user parameters (Unauthorized)', () => {
+    it('Getting user parameters (Unauthorized)', () => {
         chai.request(url)
             .get('/user/current')
             .send({})

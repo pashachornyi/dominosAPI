@@ -4,31 +4,31 @@ const chai = require('chai')
 chai.use(chaiHttp);
 const helper = require('../helpers/📌codes')
 require('dotenv').config()
-const provider200 = require('./provider/accessToken200')
-const provider422 = require('./provider/accessToken422')
-const url = '/auth/login'
+const provider404 = require('./provider/verifyemail404')
+const provider200 = require('./provider/verifyEmail200')
+const url = '/auth​/confirm​/2d29ba03d8ef2c34ea4eeea6e9e199c1e36fade22b6b5415157f5f67a5241ae2768690713c8ba366c25b78dfe039f7c88bbc'
 
 
-describe('Log in form', () => {
+describe('Verify Token', () => {
     provider200.forEach((element) => {
         it(element.scenario, (done) => {
             chai.request(process.env.URL)
-                .post(url)
+                .get(url)
                 .send(element.data)
                 .end((err, result) => {
-                    console.log(result.body.result.token)
-                    helper.assertCheckObjectAllKeys(result.body.result, element.result, 'Token')
+                    console.log(result.body.result)
+                    helper.assert200(result.body.result, element.result)
                     done()
                 })
         })
     })
-    provider422.forEach((element) => {
-        it(element.scenario, (done) => {
+    provider404.forEach((element) => {
+        xit(element.scenario, (done) => {
             chai.request(process.env.URL)
                 .post(url)
                 .send(element.data)
                 .end((err, result) => {
-                    helper.assert422(element.result, result.body)
+                    helper.assert404(element.result, result.body)
                     done()
                 })
         })

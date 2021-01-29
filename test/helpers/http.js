@@ -18,6 +18,12 @@ class HttpClient {
                 password: password
             })
     }
+    post(path, parameters, token) {
+        return chai.request(process.env.URL)
+            .post(path)
+            .query(parameters)
+            .set("Authorization", "Bearer " + token)
+    }
 }
 
 module.exports = new HttpClient();

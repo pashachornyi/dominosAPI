@@ -7,8 +7,8 @@ module.exports = [
             fullName: partName,
             username: partName,
             email: `${partName}@i.ua`,
-            password: "zxcvas11",
-            confirmPassword: "zxcvas11"
+            password: "Test123!",
+            confirmPassword: "Test123!"
         },
         result: [
             'id',
@@ -19,10 +19,9 @@ module.exports = [
             'location',
             'birthday',
             'phone',
+            'image',
             'createdAt',
             'updatedAt',
-            'deletedAt',
-            'deletedBy'
         ]
     }
 ]

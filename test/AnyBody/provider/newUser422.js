@@ -1,5 +1,5 @@
 let username = "user1"
-let email = "q@i.ua"
+let email = "pavel.chorniy16@gmail.com"
 module.exports = [
     {
         scenario: 'Empty fields',
@@ -11,38 +11,39 @@ module.exports = [
             confirmPassword: ""
         },
         result: [
-            { field: 'username', message: 'Username can not be blank.' },
-            { field: 'fullName', message: 'Full Name can not be blank.' },
-            { field: 'email', message: 'Email can not be blank.' },
-            { field: 'password', message: 'Password can not be blank.' }
+            { field: 'username', message: 'Username cannot be blank.' },
+            { field: 'fullName', message: 'Full Name cannot be blank.' },
+            { field: 'email', message: 'Email cannot be blank.' },
+            { field: 'password', message: 'Password should contain at least 8 symbols, one upper case, one lowercase and one number and one special symbol.' },
+            { field: 'confirmPassword', message: 'Confirm Password cannot be blank.' }
         ]
     },
     {
-        scenario: 'Minimum lenghts of fullName and username',
+        scenario: 'Minimum lenghts of fullName and username (other data are valid)',
         data: {
             fullName: "us",
             username: "us",
             email: "uws@i.ua",
-            password: "zxcvas11",
-            confirmPassword: "zxcvas11"
+            password: "Test123!",
+            confirmPassword: "Test123!"
         },
         result: [
-            { field: 'username', message: 'Username must be no less than 3.' },
-            { field: 'fullName', message: 'Full Name must be no less than 4.' }
+            { field: 'username', message: '\"Username\" should contain at least 3 character(s).' },
+            { field: 'fullName', message: '\"Full Name\" should contain at least 4 character(s).' }
         ]
     },
     {
-        scenario: 'Maximum lenghts of string',
+        scenario: 'Maximum lenghts of of fullName and username (other data are valid)',
         data: {
             fullName: "usususususususususuуу",
             username: "usususususususуу",
             email: "uws@i.ua",
-            password: "zxcvas11",
-            confirmPassword: "zxcvas11"
+            password: "Test123!",
+            confirmPassword: "Test123!"
         },
         result: [
-            { field: 'username', message: 'Username must be no greater than 15.' },
-            { field: 'fullName', message: 'Full Name must be no greater than 20.' }
+            { field: 'username', message: '\"Username\" should contain at most 15 character(s).' },
+            { field: 'fullName', message: '\"Full Name\" should contain at most 20 character(s).' }
         ]
     },
     {
@@ -51,11 +52,11 @@ module.exports = [
             fullName: "qqqq",
             username: username,
             email: "qqqq@i.ua",
-            password: "asx11111",
-            confirmPassword: "asx11111"
+            password: "Test123!",
+            confirmPassword: "Test123!"
         },
         result: [
-            { field: 'username', message: `Username "${username}" has already been taken.` }
+            { field: 'username', message: `\"Username\" "${username}" has already been taken.` }
         ]
     },
     {
@@ -64,11 +65,24 @@ module.exports = [
             fullName: "qqqq",
             username: "qqqq",
             email: email,
-            password: "asx11111",
-            confirmPassword: "asx11111"
+            password: "Test123!",
+            confirmPassword: "Test123!"
         },
         result: [
-            { field: 'email', message: `Email "${email}" has already been taken.` }
+            { field: 'email', message: `\"Email\" "${email}" has already been taken.` }
+        ]
+    },
+    {
+        scenario: 'Password and confirmPassword do not match',
+        data: {
+            fullName: "newUser",
+            username: "newUser",
+            email: "newUser@i.ua",
+            password: "Test123!",
+            confirmPassword: "Test123"
+        },
+        result: [
+            { field: 'confirmPassword', message: '\"Confirm Password\" must be equal to \"Password\".' }
         ]
     }
 ]
